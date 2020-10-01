@@ -1,0 +1,5 @@
+\babel@toc {english}{}
+\beamer@sectionintoc {1}{Introdution}{4}{0}{1}
+\beamer@sectionintoc {2}{Position and Rotations}{11}{0}{2}
+\beamer@sectionintoc {3}{Quaternions}{25}{0}{3}
+\beamer@sectionintoc {4}{Homogenous transformations}{33}{0}{4}
