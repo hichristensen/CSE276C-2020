@@ -157,9 +157,81 @@
 \begin{frame}
   \frametitle{Polynomial approximation}
   \begin{itemize}
+  \item Lets restrict the degree of the polynomial - n
+  \item Let set $\pi_n$ be all the polynomials degree at most n
+  \item Let {\em uniform distance} of f from $\pi_n$ be the smallest
+    error achievable using polynomials from $\pi_n$ denoted by
+    \[
+      d(f,\pi_n) = min_{p\in \pi_n} ||f - p ||_{\infty}
+    \]
+    
+  \item How can we make it happen? 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Polynominal approximation - getting help}
+  \begin{itemize}
+  \item We have a theorem:
+    \begin{itemize}
+    \item A function f continuous in $[a,b]$ has exactly one best
+      solution from $\pi_n$
+    \item The polynomial $p \in \pi_n$ of f across $[a,b]$ iff
+    \item there are n+2 point $a \leq x_0 \leq \ldots \leq x_n+1 \leq b$ such that
+      \[
+        (-1)^i [ f(x_i) - p(x_i) ] = \epsilon ||f-p||_{\infty}
+      \]
+      where $\epsilon = signum[f(x_0)-p(x_0)]$ 
+    \end{itemize}
+  \item By alternating signs at n+2 points the different between f and p is precicely equal to the $L_{\infty}$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Putting theorem to work}
+  \begin{itemize}
+  \item Can we use the theorem to build a strategy? 
+  \item Lets consider $f(x) = e^x \mbox{ on } [-1, 1]$
+  \item What would be the best 1st order approximation, i.e., $\pi_1$
+    \centerline{\includegraphics[height=5cm]{figure_1}}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Fitting the line}
+  \begin{itemize}
+  \item So we have three points
+  \item $x_0 = -1$, $x_1 = ? $ and $x_2 = 1$ 
+  \item at which the error is $f(x) = p(x)$
+  \item So what  is $x_1$?
+  \item we can write $p(x) = a + b x$
+  \item We can compute the error at the three points:
+    \[
+      \begin{array}{llll}
+        e(x_0) & = f(x_0) - p(x_0) & = f(-1) - p(-1) & =\frac{1}{e} - a + b\\
+        e(x_1) & f(x_1) - p(x_1) & = &  e^{x_1} - a + b x_1\\
+        e(x_2) & f(x_2) - p(x_2) & f(1) - p(1) & e - a - b\\
+      \end{array}
+    \]
+    
+  \item Given $e(x_0) = e(x_2)$
+    \[
+      \begin{array}{ccc}
+        \frac{1}{e} - a + b & = & e - a - b\\
+        2 b & = & e - \frac{1}{e} \\
+        b   & = & 1.1752\\
+      \end{array}
+    \] The slope must be equal to the average change
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Fitting the line (cont)}
+  \begin{itemize}
   \item 
   \end{itemize}
 \end{frame}
+
 \section{Chebyshev Approximation}
 
 \section{Trunkated Power Series}
