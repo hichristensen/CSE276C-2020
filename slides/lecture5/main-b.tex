@@ -1,0 +1,215 @@
+\documentclass[10pt]{beamer}
+
+\mode<presentation>
+{
+  \usetheme[height=1.25cm]{Madrid}
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamercolor{alerted text}{fg=illini}
+}
+\usebackgroundtemplate{\includegraphics[width=\paperwidth,height=\paperheight]{uc-background}}
+
+\usepackage[english]{babel}
+\usepackage{epsfig,subfigure,bm}
+\usepackage{multimedia}
+\usepackage{psfrag}
+\usepackage{animate}
+
+%%%%%% Begin of my macros and options
+
+\setbeamertemplate{section in toc shaded}[default][55]
+\setbeamertemplate{subsection in toc shaded}[default][55]
+\setbeamercolor{block title}{fg=white,bg=illini}
+\setbeamercolor{block body}{fg=black,bg=mygrey}
+
+\setbeamercolor{emphprimary}{fg=CBlue}
+\setbeamercolor{emphsecondary}{fg=illini}
+\setbeamercolor{emphtertiary}{fg=mygreen}
+\definecolor{darkForestGreen}{rgb}{.1,1,.1}
+\definecolor{veryLightGray}{rgb}{.9,.9,.9}
+\definecolor{greenApple}{rgb}{.3,.9,.3}
+
+\setbeamercolor{frametitle}{bg=CBlue}   
+\setbeamercolor{title}{bg=CBlue}
+
+\usepackage{amsmath,amssymb,amsxtra,amsthm}
+\usepackage{algorithm,algorithmic}
+\usepackage{natbib}
+\usepackage{bibentry}
+\usepackage{xspace}
+\usepackage{changepage}
+
+\pdfmapfile{+sansmathaccent.map}
+
+\definecolor{myblue}{rgb}{.2,.2,.7}
+\definecolor{myred}{rgb}{.7,.2,.2}
+\definecolor{mygreen}{rgb}{.2,.7,.2}
+\definecolor{mygrey}{rgb}{0.9,0.9,0.9}
+\definecolor{CBlue}{cmyk}{1,0.25,0,0}
+\definecolor{illini}{rgb}{0.98,0.4,0.05}
+\definecolor{black}{cmyk}{0,0,0,1}
+
+\newcommand{\myemph}[1]{{\usebeamercolor[fg]{emphprimary}
+    \textbf{#1}}}
+\newcommand{\myemphalt}[1]{{\usebeamercolor[fg]{emphsecondary}
+    \textbf{#1}}}
+
+\graphicspath{{figs/}}
+
+\title[Math for Robotics] % (optional, use only with long paper titles)
+{CSE276C - Roots of Polynomials}
+
+\author[H.~I. Christensen] % (optional, use only with lots of authors)
+{Henrik I.~Christensen}
+% - Give the names in the same order as the appear in the paper.  -
+% Use the \inst{?} command only if the authors have different
+% affiliation.
+
+\AtBeginSection[]
+{
+   \begin{frame}
+       \frametitle{Outline}
+       \tableofcontents[currentsection]
+   \end{frame}
+}
+
+\institute[UCSD] % (optional, but mostly needed)
+{
+  \begin{minipage}[c]{.2\textwidth}
+    \includegraphics[width=.65\linewidth]{ucsealnew}%
+  \end{minipage}%
+  \begin{minipage}[c]{.6\textwidth}
+    \small
+%%    \begin{center}
+      Computer Science and Engineering\\
+      University of California, San Diego\\
+      \myemph{\url{http://cri.ucsd.edu}}\\          
+%%    \end{center}
+
+  \end{minipage}
+%%  \vspace*{1ex}
+}
+%% - Use the \inst command only if there are several affiliations.
+%% - Keep it simple, no one is interested in your street address.
+
+\bigskip
+
+\date[Oct 2020]% (optional, should be abbreviation of conference name)
+{\small%
+  October 2020}
+
+\begin{document}
+  
+\nobibliography{/Users/hic/Dropbox/bibliography/bib-file}
+\bibliographystyle{plain}
+
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+\section{Introduction}
+
+\begin{frame}
+  \frametitle{Introduction}
+  \begin{itemize}
+  \item Last time we looked at direct search for roots
+  \item Bracketing was the way to limit the search domain
+  \item Brent's method was a simple strategy to do search
+  \item What if we have a polynomial?
+    \begin{enumerate}
+    \item Can we find the roots?
+    \item Can we simplify the polynomial?
+    \end{enumerate}
+  \item Lets explore this
+  \end{itemize}
+\end{frame}
+
+\section{Roots of Low Order Polynomials}
+
+\begin{frame}
+  \frametitle{Low order polynomials}
+  \begin{itemize}
+  \item We have closed form solutions to roots of polynomials up to degree 4
+  \item Quadratics
+    \[
+      ax^2 + bx +c = 0, \mbox{~~~~} a\neq0
+    \]
+    has two roots
+    \[
+      x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+    \]
+    we have real unique, dual or imaginary solutions
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Cubics}
+  \begin{itemize}
+  \item The cubic equation
+    \[
+      x^3 + px^2 + qx +r =0
+    \] can be reduced using substitution
+    \[
+      x = y - \frac{p}{3}
+    \] to the form
+    \[
+      y^3 +  a y + b = 0
+    \] where
+    \[
+      \begin{array}{rcl}
+        a &= & \frac{1}{3} (3q - p^2)\\
+        b &= & \frac{1}{27} (2p^3 - 9 pq + 27r)\\
+      \end{array}
+    \] the condensed form has 3 roots
+    \[
+      \begin{array}{rcl}
+        y_1& = & A+B\\
+        y_2& = & -\frac{1}{2}(A+B) + \frac{i \sqrt{3}}{2} (A-B)\\
+        y_3& = & -\frac{1}{2}(A+B) - \frac{i \sqrt{3}}{2} (A-B)\\
+      \end{array}
+    \] where
+    \[
+      \begin{array}{rclcrcl}
+        A & = & \sqrt[3]{- \frac{b}{2} + \sqrt{\frac{b^2}{4} + \frac{a^3}{27}}} & \mbox {~~~} &
+        B & = & \sqrt[3]{- \frac{b}{2} - \sqrt{\frac{b^2}{4} + \frac{a^3}{27}}}\\                                                                                                        
+      \end{array}
+    \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Cubic (cont)}
+  \begin{itemize}
+  \item We have three cases:
+    \begin{enumerate}
+    \item $\frac{b^2}{4} + \frac{a^3}{27} > 0$: one real root and two conjugate roots
+    \item $\frac{b^2}{4} + \frac{a^3}{27} = 0$: three real roots of which at least two are equal
+    \item $\frac{b^2}{4} + \frac{a^3}{27} < 0$: three real roots and unequal roots
+    \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Quartics}
+  \begin{itemize}
+  \item 
+  \end{itemize}
+\end{frame}
+\section{Root Counting}
+
+\section{Bounds on Roots}
+
+\section{Deflation}
+
+\section{Newton's Method}
+
+\section{M{\"u}ller's Method}
+
+\section{Summary}
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
