@@ -252,17 +252,160 @@
   \item p(x) has n roots
   \item Descartes rules of sign
     \begin{itemize}
-    \item 
+    \item ``The number of positive real zeroes in a polynomial
+      function p(x) is the same or less than by an even numbers as the
+      number of changes in the sign of the coefficients. The number of
+      negative real zeroes of the p(x) is the same as the number of
+      changes in sign of the coefficients of the terms of p(-x) or
+      less than this by an even number''
+    \end{itemize}
+  \item Consider
+    \[
+      p(x) = x^5 + 4 x^4 - 3 x^2 + x -6
+    \]
+  \item So it must have 3 or 1 postive root and
+  \item and it must have 2 or 0 negative roots
+  \end{itemize}
 \end{frame}
+
+\begin{frame}
+  \frametitle{Sturms theorem}
+  \begin{itemize}
+  \item We can derive a sequence of polynomials
+  \item Let f(x) be a polynomial. Denote the original $f_0(x)$ and the
+    derivative $f'(x) = f_1(x)$. Consider
+    \[
+      \begin{array}{rcl}
+        f_0(x)      &=& q_1(x) f_1(x) - f_2(x) \\
+        f_1(x)      &=& q_2(x) f_2(x) - f_3(x) \\
+                 &\vdots& \\
+        f__{k-2}(x) &=& q_{k-1}(x) f_{k-1}(x) - f_k(x) \\
+        f__{k-1}(x) &=& q_k(x) f_k(x) \\
+      \end{array}
+    \]
+  \item The theorem
+    \begin{itemize}
+    \item ``The number of distinct real zeros of a polynomial f(x)
+      with real coefficients in (a, b) is equal to the excess of the
+      number of changes of sign in the sequence $f_0(a), \ldots ,
+      f_{k−1}(a)$, $f_k(a)$ over the number of changes of sign in the
+      sequence $f_0(b), \ldots , f_{k−1}(b), f_k(b)$.''
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Sturm - example}
+  \begin{itemize}
+  \item Consider the polynomial
+    \[
+      x^5 + 5x^4 - 20 x^2 - 10x + 2 =0
+    \]
+    The Sturm functions are then
+    \[
+      \begin{array}{rcl}
+        f_0(x) & = &  x^5 + 5x^4 - 20 x^2 - 10x + 2\\
+        f_1(x) & = &  x^4 + 4 x^3 - 8x - 2\\
+        f_2(x) & = &  x^3 + 3 x^2 - 1\\
+        f_3(x) & = &  3 x^2 + 7 x +1 \\
+        f_4(x) & = &  17x + 11\\
+        f(5(x) & = &  1\\
+      \end{array}
+    \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Sturm example (cont)}
+  \centerline{\includegraphics[width=10cm]{sturm-figure}}
+  \begin{itemize}
+  \item So roots between (-4, -3), (-3, -2), (-1,0), (0,1) and (1,2)
+  \end{itemize}
+\end{frame}
+
 
 \section{Deflation}
 
+\begin{frame}
+  \frametitle{Deflation}
+  \begin{itemize}
+  \item Once you have a root r you can deflate a polynomial
+    \[
+      p(x) = (x-r) q(x)
+    \]
+  \item As the degree decreases the complexity of root finding is simplified. 
+  \item One can use Horner's scheme
+    \[
+      p(x) = b_0 + (x-r)(b_n x^{n-1} + \ldots + b_2 x + b_1)
+    \]
+    as r is a root $b_0 = 0$ so
+    \[
+      q(x) = b_n x^{n-1} + \ldots + b_2 x + b_1
+    \]
+  \end{itemize}
+\end{frame}
+
 \section{Newton's Method}
+
+\begin{frame}
+  \frametitle{Newton's Method}
+  \begin{itemize}
+  \item Remember we can do root search/refinement
+    \[
+      x_{k+1} = x_k - \frac{p(x_k)}{p'(x)}
+    \] we know that
+    \[
+      p(x) = p(t) + (x-t) q(x)
+    \]
+    So p'(t) = q(t) or
+    \[
+      q(x) = \frac{p(x)}{x-t}
+    \]
+  \item If p(x) has double roots it could be a challenge
+  \end{itemize}
+\end{frame}
 
 \section{M{\"u}ller's Method}
 
+\begin{frame}
+  \frametitle{M\"ullers Method}
+  \begin{itemize}
+  \item Newton's Method is local and sensitive to seed guess    
+  \item M\"ullers method is more global
+  \item Based on a quadratic interpolation
+  \item Assume you have three estimates of the root: $x_{k-2}, x_{k-1}, x_k$
+  \item Interpolation polynomial
+    \[
+      p(x) = f(x_k)
+      + f[x_{k-1}, x_k](x-x_k)
+      + f[x_{k-2}, x_{k-1}, x_k](x-x_k)(x-x_{k-1})
+    \]
+  \item Using the equality
+    \[
+      (x-x_k)(x-x_{k-1}) = (x-x_k)^2 + (x-x_k)(x_k-x_{k-1})
+    \] we get
+    \[
+      p(x) = f(x_k) + b (x-x_k) + a (x-x_k)^2
+    \]
+    which we can solve for p(x) = 0
+  \end{itemize}
+\end{frame}
+
 \section{Summary}
 
+\begin{frame}
+  \frametitle{Summary}
+  \begin{itemize}
+  \item Frequently using a polynomial refactorization is more stable
+  \item A way to compress data into a semantic form
+  \item For lower order polynomials we have closed for solutions
+  \item We can use Descartes rules, ... to bracket roots
+  \item We can find roots and reduce polynomials
+  \item Newton's method is a simple local rule, but could be noisy
+  \item Mullers method is a way to solve it more generally 
+  \item Lots of methods available for special special cases
+  \end{itemize}
+\end{frame}
 
 \end{document}
 
