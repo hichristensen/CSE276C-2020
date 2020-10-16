@@ -246,11 +246,11 @@
   \begin{itemize}
   \item Consider a polynomial of degree n:
     \[
-      p(x) - a_n x^n + a_{n-1} x^{n-1} + \ldots + a_1 x + a_0
+      p(x) = a_n x^n + a_{n-1} x^{n-1} + \ldots + a_1 x + a_0
     \]
   \item if $a_i$ are real the roots are real or complex conjugate pairs. 
   \item p(x) has n roots
-  \item Descartes rules of sign
+  \item Descartes rules of sign:
     \begin{itemize}
     \item ``The number of positive real zeroes in a polynomial
       function p(x) is the same or less than by an even numbers as the
@@ -279,17 +279,17 @@
         f_0(x)      &=& q_1(x) f_1(x) - f_2(x) \\
         f_1(x)      &=& q_2(x) f_2(x) - f_3(x) \\
                  &\vdots& \\
-        f__{k-2}(x) &=& q_{k-1}(x) f_{k-1}(x) - f_k(x) \\
-        f__{k-1}(x) &=& q_k(x) f_k(x) \\
+        f_{k-2}(x) &=& q_{k-1}(x) f_{k-1}(x) - f_k(x) \\
+        f_{k-1}(x) &=& q_k(x) f_k(x) \\
       \end{array}
     \]
   \item The theorem
     \begin{itemize}
-    \item ``The number of distinct real zeros of a polynomial f(x)
+    \item The number of distinct real zeros of a polynomial f(x)
       with real coefficients in (a, b) is equal to the excess of the
       number of changes of sign in the sequence $f_0(a), \ldots ,
       f_{k−1}(a)$, $f_k(a)$ over the number of changes of sign in the
-      sequence $f_0(b), \ldots , f_{k−1}(b), f_k(b)$.''
+      sequence $f_0(b), \ldots , f_{k−1}(b), f_k(b)$.
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -309,7 +309,7 @@
         f_2(x) & = &  x^3 + 3 x^2 - 1\\
         f_3(x) & = &  3 x^2 + 7 x +1 \\
         f_4(x) & = &  17x + 11\\
-        f(5(x) & = &  1\\
+        f_5(x) & = &  1\\
       \end{array}
     \]
   \end{itemize}
@@ -403,7 +403,7 @@
   \item We can find roots and reduce polynomials
   \item Newton's method is a simple local rule, but could be noisy
   \item Mullers method is a way to solve it more generally 
-  \item Lots of methods available for special special cases
+  \item Lots of methods available for special cases
   \end{itemize}
 \end{frame}
 

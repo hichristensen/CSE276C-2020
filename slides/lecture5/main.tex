@@ -350,7 +350,7 @@
     \]
     we get
     \[
-      f_i(\vec{x} + \delta \vec{x}) = f_i(\vec{v}) + \sum_{j=0}^{n-1} \frac{\partial f_i}{\partial x_j} + O(\delta \vec{x}^2)
+      f_i(\vec{x} + \delta \vec{x}) = f_i(\vec{x}) + \sum_{j=0}^{n-1} \frac{\partial f_i}{\partial x_j}\delta \vec{x} + O(\delta \vec{x}^2)
     \]
   \end{itemize}
 \end{frame}
@@ -373,11 +373,11 @@
     \]
     or
     \[
-      \vec{x}_{new} = \vec{x_old} + \delta \vec{x}
+      \vec{x}_{new} = \vec{x_{old}} + \delta \vec{x}
     \]
     for some cases an improved strategy is 
     \[
-      \vec{x}_{new} = \vec{x_old} + \lambda \delta \vec{x}
+      \vec{x}_{new} = \vec{x_{old}} + \lambda \delta \vec{x}
     \] where $\lambda \in [0,1]$ to control convergence
   \end{itemize}
 \end{frame}
