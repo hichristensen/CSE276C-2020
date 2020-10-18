@@ -261,7 +261,7 @@
       $f(x_1) \leq f(x_2) \leq \ldots \leq f(x_{N+1})$
     \end{itemize}
     \item Compute $x_0$, the centroid of all points except $x_{N+1}$
-    \item \myemph{Reflection} compute $x_r = x_0 + \alpha (x_0 - x_{N+1}$, with $\alpha>0$ if the reflection is better than $f(x_{N-1})$ replace. Restart
+    \item \myemph{Reflection} compute $x_r = x_0 + \alpha (x_0 - x_{N+1})$, with $\alpha>0$ if the reflection is better than $f(x_{N-1})$ replace. Restart
     \item \myemph{Expansion} if $f(x_r) < f(x_1)$ compute $x_e = x_0 + \gamma (x_r - x_0)$  if $f(x_e) < f(x_r)$ replace $x_{N+1}$ else replace $x_{N+1}$ with $x_r$. Restart
     \item \myemph{Contraction} If $f(x_r) > f(x_N)$ compute $x_c = x_0 + \rho (x_{N+1}  - x_0)$ with $\rho< .5$. If $f(x_c) < f(x_{N+1})$ replace and restart
     \item \myemph{Shrink} Replaces all points except $x_1$ with $x_i = x_1 + \sigma (x_i - x_1)$ and restart
@@ -295,9 +295,9 @@
     \] where
     \[
       \begin{array}{ccc}
-        \vec{v} &= & f(P)\\
+        \vec{c} &= & f(P)\\
         b & = & - \nabla f_P \\
-        A_{ij} & = & \frac{\partial f}{\partial x_i \partial x_j} \mbox{~~ Hessian Matrix} \\
+        A_{ij} & = & \frac{\partial^2 f}{\partial x_i \partial x_j} \mbox{~~ Hessian Matrix} \\
       \end{array}
     \] 
   \item Also remember
