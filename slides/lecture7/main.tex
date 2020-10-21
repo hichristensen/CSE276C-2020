@@ -117,9 +117,114 @@
     \item Path optimization
     \item Image restoration
     \end{itemize}
-  \item 
+  \item Consider both end-point and boundary value problems, which
+    anchors the problem
   \end{itemize}
 \end{frame}
+
+\begin{frame}
+  \frametitle{Introduction - Setting the stage}
+  \begin{itemize}
+  \item We are trying to solve
+    \[
+      I = \int_a^b f(x) dx
+    \]
+    \item trying to solve I = y(b) for the equation
+    \[
+      \frac{\partial y}{\partial x} = f(x)
+    \] 
+  \item with the boundary condition
+    \[
+      y(a) = 0
+    \]
+  \item Objective to generate a good estimate of y(b) with a
+    reasonable number of evaluations
+  \item Emphasis on 1D problems, but in most cases generalization is
+    straight forward
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Basic use of simpsons rule}
+  \begin{itemize}
+  \item Consider equally spaces data points
+    \[
+      x_i = x_0 + i h \mbox{ ~~~~~~~~} i = 0, 1, ..., N
+    \]
+    
+  \item the function is evaluated at $x_i$
+    \[
+      f_i = f(x_i)
+    \]
+  \item The Newton-Cotes rules is then
+    \[
+      \int_{x_0}^{x_1} f(x) dx = \frac{f_1-f_0}{2} h + O(f'' h^3)
+    \]
+  \item The Simpson rules is
+    \[
+      \int_{x_0}^{x_2} f(x) dx = \frac{h}{3} (f_0 + 4 f_1 + f_2) + O(h^5 f^{(4)})
+    \]
+  \item which is exact to the 3rd degree
+  \item The simpson $\frac{3}{8}$ rule
+    \[
+      \int_{x_0}^{x_3} f(x) dx = \frac{h}{8} (3 f_0 + 9 f_1 + 9 f_2 + 3 f_3)
+    \]
+  \item There are a series of rules for higher order, check literature
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Simpson / Trapezoid Rules}
+  \begin{itemize}
+  \item Clearly the local rules can be chained into a longer evaluation
+  \item $(x_0, x_1), (x_1, x_2), \ldots, (x_{N-1},x_N)$ to get an extended
+    trapezoid form
+    \[
+      \int_{x_0}^{x_N} f(x) dx = h(\frac{1}{2} f_0 + f_1 + f_2 + \ldots + f_{N-1} + \frac{1}{2} f_N )
+    \]
+  \item The error estimate is
+    \[
+      O\left( \frac{(x_N - x_0) f''}{N^2} \right)
+    \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Trapezoid Rule - Strategy?}
+  \begin{itemize}
+  \item How can you effective use the trapezoid rule?
+    \pause
+  \item Use of a coarse to fine strategy and watch convergence
+  \item This is termed Romberg integration in numerical toolboxes
+  \item In general these methods generate good accuracy for proper functions? 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Handling of improper function}
+  \begin{itemize}
+  \item What is an improper function?
+    \pause
+    \begin{enumerate}
+    \item Integrand goes to a finite value but cannot be evaluated at a point, such as
+      \[
+        \frac{sin x}{x} \mbox{ ~~~ at ~~~ } x=0
+      \]
+    \item Upper limit is $\infty$ or lower limit is $-\infty$
+    \item Has a singularity at a boundary point, e.g.,
+      \[
+        x^{-1/2} \mbox{~~~~ at ~~~~~} x = 0
+      \]
+    \item Has a singularity with the interval at a known location
+    \item If the value is infinite, e.g.,
+      \[
+        \int_0^{\infty} x_{-1} dx \mbox{~~~~or~~~~} \int_{-infty}^{\infty} cos x dx
+      \] it is not improper but impossible
+    \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+
 \begin{frame}
   \frametitle{Questions}
   \centerline{\Huge Questions}
