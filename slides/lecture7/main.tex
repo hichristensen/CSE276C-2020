@@ -6,6 +6,7 @@
   \setbeamertemplate{navigation symbols}{}
   \setbeamercolor{alerted text}{fg=illini}
 }
+
 \usebackgroundtemplate{\includegraphics[width=\paperwidth,height=\paperheight]{uc-background}}
 
 \usepackage[english]{babel}
@@ -14,6 +15,7 @@
 \usepackage{psfrag}
 \usepackage{animate}
 
+\usefonttheme{metropolis} % default family is serif
 %%%%%% Begin of my macros and options
 
 \setbeamertemplate{section in toc shaded}[default][55]
@@ -161,7 +163,7 @@
     \]
   \item The Newton-Cotes rules is then
     \[
-      \int_{x_0}^{x_1} f(x) dx = \frac{f_1-f_0}{2} h + O(f'' h^3)
+      \int_{x_0}^{x_1} f(x) dx = \frac{f_1+f_0}{2} h + O(f'' h^3)
     \]
   \item The Simpson rules is
     \[
@@ -229,7 +231,7 @@
     \end{enumerate}
   \item If the value is infinite, e.g.,
     \[
-      \int_0^{\infty} x_{-1} dx \mbox{~~~~or~~~~} \int_{-infty}^{\infty} cos x dx
+      \int_0^{\infty} x^{-1} dx \mbox{~~~~or~~~~} \int_{-\infty}^{\infty} cos x dx
     \] it is not improper but impossible
   \end{itemize}
 \end{frame}
@@ -241,8 +243,8 @@
     \[
       \begin{array}{rcl}
       \int_a^b f(x) dx &=& \frac{h}{2} \left[ f(a) + 2 \sum_{k=1}^{N-1} f (a + kh) + f(b) \right]\\
-                       && - \sum_{k=1}^{M-1} \frac{h^{2k} B_{2k}}{(2m)!}[ f^{(2k-1)}(b) - f^{(2k-1)}(a)] \\
-                       && - \frac{h^{2m+1} B_{2m}}{(2m)!}\sum_{k=0}^{N-1} f^{(2m)}(a + kh + \theta h)\\
+                       && - \sum_{k=1}^{N/2} \frac{h^{2k} B_{2k}}{(2k)!}[ f^{(2k-1)}(b) - f^{(2k-1)}(a)] \\
+                       && - \sum_{k=0}^{N-1} \frac{h^{2k+1} B_{2k}}{(2k)!} f^{(2k)}(a + kh + \theta h) \\
       \end{array}
     \]
   \item where 2m first derivatives are continuous over (a,b). h = (a-b)/N and $\theta\in(0,1)$
@@ -275,7 +277,7 @@
     \[
       \begin{array}{rcl}
         \int_{x_0}^{x_{N-1}} f(x) dx &=& h (f_{1/2} + f_{3/2} + \ldots + f_{N-3/2}) \\
-                & + & \frac{B_2 h^2}{4} (f'_{N-1} - f'_0) + \ldots + \frac{B_{2k} h^{2k}}{(2k)!} (f^{(2k)}_{N-1} - f^{(2k)}_0) \\
+                & + & \frac{B_2 h^2}{4} (f'_{N-1} - f'_0) + \ldots + \frac{B_{2k} h^{2k}}{(2k)!} (f^{(2k)}_{N-1} - f^{(2k)}_0) + \ldots \\
       \end{array}
     \]
   \item We can do this recursively to estimate convergence
@@ -324,7 +326,7 @@
   \item For polynomials this can be an exact approximation
   \item We can approximate f(x) with a Gaussian Mixture and choose weights to match
     \[
-      f(x) \approx \sum_{i=0}^N W_k N(x | x_k, \sigma_k)
+      f(x) \approx \sum_{k=0}^N W_k N(x | x_k, \sigma_k)
     \]
   \end{itemize}
 \end{frame}
