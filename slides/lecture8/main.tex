@@ -106,6 +106,14 @@
   \titlepage
 \end{frame}
 
+\begin{frame}
+  \frametitle{Literature }
+  \begin{itemize}
+  \item Numerical Recipes: Chapter 16
+  \item Numerical Renaissance: Chapter 9
+  \end{itemize}
+\end{frame}
+
 \section{Introduction}
 
 \begin{frame}
@@ -222,7 +230,7 @@
         k_2 & = & h f( x_n + \frac{1}{2} h, y_n + \frac{1}{2} k_1)\\ 
         k_3 & = & h f( x_n + \frac{1}{2} h, y_n + \frac{1}{2} k_2)\\
         k_4 & = & h f( x_n + h, y_n + k_3)\\
-        y_{n+1} & = & y_n + \frac{1}{6} k_1 + \frac{1}{3} k_2 + frac{1}{3} k_3 + \frac{1}{6} k_4 + O(h^5)\\        
+        y_{n+1} & = & y_n + \frac{1}{6} k_1 + \frac{1}{3} k_2 + \frac{1}{3} k_3 + \frac{1}{6} k_4 + O(h^5)\\        
       \end{array}
     \]
   \item By far the most frequently used RK method for ODE integration
@@ -293,15 +301,114 @@
     \[
       h = \frac{H}{n}
     \]
+  \item We can rewrite the integration
+    \[
+      \begin{array}{rcl}
+        z_0 & = & y(x_n)\\
+        z_1 & = & z_0 + h f( x_n, z_0 )\\
+        z_{m+1} & = & z_{m-1} + 2h f(x_{n} + mh, z_n) \mbox{~~~} m = 1, 2, 3, ...{n-1}\\
+        y(n_n + H) & = & \frac{1}{2} [ z_n + z_{n-1} + h f(x+H, z_n) ] \\ 
+      \end{array}
+    \]
+  \item Centered mid-point or centered difference method
+  \item The error can be shown to be
+    \[
+      y_n - y(x+H) = \sum_{i=0}^{\infty} \alpha_i h^{2i}
+    \]
+  \item The power series implies that we can potentially do less evaluation. 
   \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Burlirsch-Stoer - How good is it? }
+  \begin{itemize}
+  \item Suppose n is even and $y_{n/2}$ is the results of half as many steps    
+  \item Then
+    \[
+      y(x+H) = \frac{4 y_n - y_{n/2}}{3}
+    \]
+  \item which is arccurate to the 4th order as Runge-Kutta but with
+    2/3 less derivative evaluation? 
+  \item How do you choose good step sizes for refinement? \pause
+  \item One strategy could be
+    \[
+      n = 2, 4, 6, 8, 12, 16, 24, 32, \ldots \mbox{~~~~} n_ = 2 n_{j-2}
+    \]
+    more recently a suggestion
+    \[
+      n - 2, 3, 6, 8, 10, 12, 14, \ldots \mbox{~~~~} n_j = 2(j+1)
+    \]
+  \end{itemize}  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Step size control for Burlirsch-Stoer}
+  \begin{itemize}
+  \item The error estimate can be tabulated as
+    \[
+      \begin{array}{lll}
+        T_{00} && \\
+        T_{10} & T_{01} & \\
+        T_{20} & T_{11} & T_{22} \\
+      \end{array}
+    \]
+  \item where $T_{ij}$ is the Lagrange interpolation of order i with j points. The relation between the polynomials is
+    \[
+      T_{k, j+1} = \frac{2 T_{k,j} - T_{k-1,j}}{(n_k / n_{k-j})^2 - 1} \mbox{~~~~} j = 0, 1, \ldots, k-1
+    \]
+  \item Each stepsize starts a new row. The difference
+    $T_{kk} - T_{kk-1}$ is an an error estimate
+  \item We can pre-compute the error estimates and use them to decide
+    on step-size selection
+  \end{itemize}
+\end{frame}
+
+
 \section{Variable Dynamics}
 
+\begin{frame}
+  \frametitle{Variable Dynamics}
+  \begin{itemize}
+  \item Sometimes the variable dynamics are very different
+  \item Consider
+    \[
+      \begin{array}{rcl}
+        u' & = & 998 u + 1998 v\\
+        v' & = & -999u - 1999 v\\
+      \end{array}
+    \]
+  \item with u(0) = 1 and v(0) = 0 we can get
+    \[
+      \begin{array}{rcl}
+        u = 2 y - z & \mbox{~~~}& v = -y -z \\
+      \end{array}
+    \]
+    We can solve and find
+    \[
+      \begin{array}{rcl}
+        u & = & 2 e^{-x} - e^{-1000x}\\
+        v & = & - e^{-x} + e^{-1000x}\\
+      \end{array}
+    \]
+  \item The differneces in dynamics would generate challenging step sizes
+  \end{itemize}
+\end{frame}
 
 \section{Summary}
 
-
+\begin{frame}
+  \frametitle{Summary}
+  \begin{itemize}
+  \item We can organize ODEs as a set of coupled 1st order ODEs
+  \item Runge-Kutta is ideal for ``cheap'' functions, especially 4th
+    order approximation
+  \item Buerlirsch-Stoer is ideal for high-accuracy integration
+  \item It is important to consider the variable dynamics in
+    integration of functions.
+  \item Adaptive stepsize is often valuable as a way to generate
+    realistic complexity
+  \end{itemize}
+\end{frame}
 
 \end{document}
 
