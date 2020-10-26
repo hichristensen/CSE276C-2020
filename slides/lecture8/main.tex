@@ -56,7 +56,7 @@
 \graphicspath{{figs/}}
 
 \title[Math for Robotics] % (optional, use only with long paper titles)
-{CSE276C - Integration of Functions}
+{CSE276C - Integration of ODEs}
 
 \author[H.~I. Christensen] % (optional, use only with lots of authors)
 {Henrik I.~Christensen}
@@ -106,263 +106,202 @@
   \titlepage
 \end{frame}
 
+\section{Introduction}
+
 \begin{frame}
   \frametitle{Introduction}
   \begin{itemize}
-  \item Interested in integration of function to allow estimation of
-    future value
-  \item Lots of potential applications in robotics
-    \begin{itemize}
-    \item Position estimation
-    \item Path optimization
-    \item Image restoration
-    \end{itemize}
-  \item Consider both end-point and boundary value problems, which
-    anchors the problem
-  \end{itemize}
+  \item For integration of a set of ordinary differential equations
+    you can always reduce it into a set of first order differential
+    equations. 
+  \item Example
+    \[
+      \frac{d^2 y}{d x^2} + q(x) \frac{dy}{dx} = r(x)
+    \]
+  \item which can be rewritten
+    \[
+      \begin{array}{rcl}
+        \frac{dy}{dx} & = & z(x)\\
+        \frac{dz}{dx} & = & r(x)  - q(x) z(x) \\
+      \end{array}
+    \]
+  \item where z is a new variable
+  \end{itemize}  
 \end{frame}
 
 \begin{frame}
-  \frametitle{Introduction - Setting the stage}
+  \frametitle{Small example}
   \begin{itemize}
-  \item We are trying to solve
+  \item Consider a simple motion of a mass when actuated by a mass
     \[
-      I = \int_a^b f(x) dx
+      F(u_1) = m \frac{ d^2 u_1 }{ d t^2 }
     \]
-    \item trying to solve I = y(b) for the equation
+  \item We can rewrite this as
     \[
-      \frac{\partial y}{\partial x} = f(x)
-    \] 
-  \item with the boundary condition
-    \[
-      y(a) = 0
+      \frac{d^2 u_1}{d t^2} = \frac{1}{m} F(u_1)
     \]
-  \item Objective to generate a good estimate of y(b) with a
-    reasonable number of evaluations
-  \item Emphasis on 1D problems, but in most cases generalization is
-    straight forward
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Setting the stage}
-  \centerline{\includegraphics[height=7cm]{trapezoid}}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Basic use of Simpson's rule}
-  \begin{itemize}
-  \item Consider equally spaces data points
+  \item We can introduce $u_2 = \frac{du_1}{dt}$ to generate
     \[
-      x_i = x_0 + i h \mbox{ ~~~~~~~~} i = 0, 1, ..., N
+      \begin{array}{rcl}
+        \frac{du_1}{dt} & = & u_2\\
+        \frac{du_2}{dt} & = & \frac{1}{m} F(u_1)
+      \end{array}
+    \] OR
+    \[
+      \frac{du}{dt} = f( u, t) \mbox{~~~~ with ~~~~} u = \left(
+        \begin{array}{c}
+          u_1 \\ u_2\\
+        \end{array} \right)
     \]
-    
-  \item the function is evaluated at $x_i$
+    where
     \[
-      f_i = f(x_i)
-    \]
-  \item The Newton-Cotes rules is then
-    \[
-      \int_{x_0}^{x_1} f(x) dx = \frac{f_1+f_0}{2} h + O(f'' h^3)
-    \]
-  \item The Simpson rules is
-    \[
-      \int_{x_0}^{x_2} f(x) dx = \frac{h}{3} (f_0 + 4 f_1 + f_2) + O(h^5 f^{(4)})
-    \]
-  \item which is exact to the 3rd degree
-  \item The Simpson $\frac{3}{8}$ rule
-    \[
-      \int_{x_0}^{x_3} f(x) dx = \frac{h}{8} (3 f_0 + 9 f_1 + 9 f_2 + 3 f_3)
-    \]
-  \item There are a series of rules for higher order, check literature
-  \end{itemize}
-\end{frame}
-
-
-\begin{frame}
-  \frametitle{Simpson's Rule}
-  \centerline{\includegraphics[height=7cm]{simpsons-rule}}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Simpson / Trapezoid Rules}
-  \begin{itemize}
-  \item Clearly the local rules can be chained into a longer evaluation
-  \item $(x_0, x_1), (x_1, x_2), \ldots, (x_{N-1},x_N)$ to get an extended
-    trapezoid form
-    \[
-      \int_{x_0}^{x_N} f(x) dx = h(\frac{1}{2} f_0 + f_1 + f_2 + \ldots + f_{N-1} + \frac{1}{2} f_N )
-    \]
-  \item The error estimate is
-    \[
-      O\left( \frac{(x_N - x_0) f''}{N^2} \right)
+      f = \left(
+        \begin{array}{c}
+          u_2\\
+          \frac{F(u_1)}{m}\\
+        \end{array} \right)
     \]
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Trapezoid Rule - Strategy?}
+  \frametitle{Introduction (cont)}
   \begin{itemize}
-  \item How can you effective use the trapezoid rule?
-    \pause
-  \item Use of a coarse to fine strategy and watch convergence
-  \item This is termed Romberg integration in numerical toolboxes
-  \item In general these methods generate good accuracy for proper functions? 
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Handling of improper function}
-  \begin{itemize}
-  \item What is an improper function?
-    \pause
+  \item The generic problem is thus a set of couple 1st order differential equations
+    \[
+      \frac{d y_i(x)}{dx} = f_i(x_i, y_1, y_2, \ldots, y_n)
+    \]
+  \item There are three major approaches:
     \begin{enumerate}
-    \item Integrand goes to a finite value but cannot be evaluated at a point, such as
-      \[
-        \frac{sin x}{x} \mbox{ ~~~ at ~~~ } x=0
-      \]
-    \item Upper limit is $\infty$ or lower limit is $-\infty$
-    \item Has a singularity at a boundary point, e.g.,
-      \[
-        x^{-1/2} \mbox{~~~~ at ~~~~~} x = 0
-      \]
-    \item Has a singularity within the interval at a known location
-    \item Has a singularity within the interval at an unknown location
+    \item Runge-Kutta: Euler type propagation
+    \item Richardson extrapolation / Burlirsch-Stoer: extrapolation type estimation with small step sizes
+    \item Predictor-Corrector: extrapolation with correction. 
     \end{enumerate}
-  \item If the value is infinite, e.g.,
+  \item Runge-Kutta most widely adopted for ``generic'' problems. Great if function evaluation is cheap
+  \item Burlirsch-Stoer generates higher precision
+  \item Predictor-Corrector is historically interesting, but rarely used today
+  \end{itemize}
+\end{frame}
+
+\section{Runge-Kutta}
+
+\begin{frame}
+  \frametitle{Runge-Kutta}
+  \begin{itemize}
+  \item The forward Euler method is specified as
     \[
-      \int_0^{\infty} x^{-1} dx \mbox{~~~~or~~~~} \int_{-\infty}^{\infty} cos x dx
-    \] it is not improper but impossible
+      y_{n+1} = y_n + h f( x_n, y_n )
+    \]
+    with $x_{n+1} = x_n + h$ 
+  \item A problem is that the integration is asymmetric
+    \centerline{\includegraphics[height=5cm]{12}}
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{The Euler-Maclaurin Summation Formula}
+  \frametitle{Runge-Kutta - Stepped Up}
   \begin{itemize}
-  \item We can write the basic Simpson's rule as
+  \item We can use a mid-point to get a closer estimate, i.e.,
     \[
       \begin{array}{rcl}
-      \int_a^b f(x) dx &=& \frac{h}{2} \left[ f(a) + 2 \sum_{k=1}^{N-1} f (a + kh) + f(b) \right]\\
-                       && - \sum_{k=1}^{N/2} \frac{h^{2k} B_{2k}}{(2k)!}[ f^{(2k-1)}(b) - f^{(2k-1)}(a)] \\
-                       && - \sum_{k=0}^{N-1} \frac{h^{2k+1} B_{2k}}{(2k)!} f^{(2k)}(a + kh + \theta h) \\
+        k_1 & = & h f(x_n, y_n)\\
+        k_2 & = & h f( x_n + \frac{1}{2} h, y_n + \frac{1}{2} k_1)\\
+        y_{n+1} & = & y_n + k_2 + O(h^3)\\
       \end{array}
     \]
-  \item where 2m first derivatives are continuous over (a,b). h = (a-b)/N and $\theta\in(0,1)$
-  \item So what are the B's?
-  \item They are Bernoulli numbers
-    \[
-      \frac{t}{e^t-1} = \sum_{n=0}^{\infty} B_n \frac{t^n}{n!}
-    \]
-  \item example values
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{4th order Runge-Kutta}
+  \begin{itemize}
+  \item We can easily extend to richer models. A typical example is the fourth order model
     \[
       \begin{array}{rcl}
-        B_0 & = & 1\\
-        B_2 & = & \frac{1}{6} \\
-        B_4 & = & - \frac{1}{30}\\
+        k_1 & = & h f( x_n, y_n)\\
+        k_2 & = & h f( x_n + \frac{1}{2} h, y_n + \frac{1}{2} k_1)\\ 
+        k_3 & = & h f( x_n + \frac{1}{2} h, y_n + \frac{1}{2} k_2)\\
+        k_4 & = & h f( x_n + h, y_n + k_3)\\
+        y_{n+1} & = & y_n + \frac{1}{6} k_1 + \frac{1}{3} k_2 + frac{1}{3} k_3 + \frac{1}{6} k_4 + O(h^5)\\        
       \end{array}
     \]
-  \item Enables you to compute an estimate of the error for a particular integration
-  \item Other integration functions have similar error functions - decreasing with complexity
+  \item By far the most frequently used RK method for ODE integration
+  \item Requires four function evaluations for every step
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Extended Mid-point Formulation}
+  \frametitle{Adaptive Runge-Kutta}
   \begin{itemize}
-  \item In many cases using the mid-point is a valuable alternative
-    \[
-      \int_{x_0}^{x_{N-1}} f(x) dx = h (f_{1/2} + f_{3/2} + \ldots + f_{N-3/2}) + O(\frac{1}{N^2})
-    \]
-  \item When combined with the Euler-Maclaurin you get
-    \[
-      \begin{array}{rcl}
-        \int_{x_0}^{x_{N-1}} f(x) dx &=& h (f_{1/2} + f_{3/2} + \ldots + f_{N-3/2}) \\
-                & + & \frac{B_2 h^2}{4} (f'_{N-1} - f'_0) + \ldots + \frac{B_{2k} h^{2k}}{(2k)!} (f^{(2k)}_{N-1} - f^{(2k)}_0) + \ldots \\
-      \end{array}
-    \]
-  \item We can do this recursively to estimate convergence
+  \item Could we adjust the step-size? 
+  \item Estimation of performance adds an overhead
+  \item What would be an obvious solution? \pause
+    \begin{enumerate}
+    \item Do a full step
+    \item Do a half step
+    \item Compare (could be recursive)
+    \item Next
+    \end{enumerate}
+  \item In general no one goes beyond 5th order Runge-Kutta
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Handling improper integrals}
+  \frametitle{PI step control of RK}
   \begin{itemize}
-  \item A trick for improper integrals is to do variable substitution to eliminate a challenge
-  \item Say one of the values is at $-\infty$ or $\infty$ we can substitute
+  \item Could we use PI control to track stepsize? \pause
+  \item How about
     \[
-      \int_a^b f(x) dx = \int_{1/b}^{1/a} \frac{1}{t^2} f\left( \frac{1}{t} \right) dt
+      h_{n+1} = S h_n \mbox{err}_n^{\alpha} \mbox{err}_{n-1}^{\beta}
     \]
+    where S is a scale factor. $\alpha$ and $\beta$ are gain factors
+  \item Typical default values $\alpha$ = $\frac{1}{k} - 0.75 \beta$
+    and $\beta = \frac{0.4}{k}$ and k is an integer that designates
+    order of the integrator
+  \end{itemize}
+\end{frame}
+\section{Richardson / Burlirsch-Stoer}
+
+\begin{frame}
+  \frametitle{Richardson Extrapolation / Burlirsch-Stoer}
+  \begin{itemize}
+  \item Aimed at smooth functions 
+  \item Generates best precision with minimal effort
+  \item Things to consider
+    \begin{enumerate}
+    \item Does not do well on functions w. table lookup or interpolation
+    \item Not well suited for functions with singulaties within intg range
+    \item Not well suited for ``expensive'' functions
+    \end{enumerate}
+  \item The approach is based on three ideas
+    \begin{enumerate}
+    \item Final answer is based on selection of (adaptive) stepsize just like Romberg
+    \item Use of rational functions for extrapolation (allow larger h)
+    \item Integration method reply on use of even functions
+    \end{enumerate}
+  \item Typically the steps size H is large and h is 100+ steps
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Variable substitution}
+  \frametitle{Burlirsch-Stoer - The details}
   \begin{itemize}
-  \item More generally we can do variable substitution as
+  \item Consider a modified mid-point strategy
     \[
-      I = \int_a^b f(x) dx = \int_c^d f(x(t)) \frac{dx}{dt} dt
-    \]
-  \item An example is the Schwartz $\tanh$ rule
+      x_{n+1} = x_n + H
+    \] but with substeps
     \[
-      x = \frac{1}{2} (b+a) + \frac{1}{2} (b-a) \tanh(t) \mbox{~~~ } x\in[a,b] \mbox{ and } t\in[-\infty,\infty]
-    \]
-  \item where
-    \[
-      \frac{\partial x}{\partial t} = \frac{1}{2} (b-a) sech^2(t) = \frac{2}{b-a} (b-t) (t-a)
-    \]
-  \item $sech()$ converges very rapidly for $t\rightarrow \infty$ which allows for integration close to singularities
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Gauss Integration}
-  \begin{itemize}
-  \item Sometimes uniform sampling is not ideal
-  \item A Gauss model may be an alternative
-  \item The idea is
-    \[
-      \int_a^b W(x) f(x) dx \approx \sum_{j=0}^{N-1} W_j f(x_j)
-    \]
-  \item For polynomials this can be an exact approximation
-  \item We can approximate f(x) with a Gaussian Mixture and choose weights to match
-    \[
-      f(x) \approx \sum_{k=0}^N W_k N(x | x_k, \sigma_k)
+      h = \frac{H}{n}
     \]
   \end{itemize}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Partitioned / Adaptive Integration}
-  \begin{itemize}
-  \item If you have a function with variable dynamics it makes sense
-    to partition the integration into intervals and use Romberg
-    integration on each interval, i.e.
-    \[
-      \begin{array}{rcl}
-        I & = & \int_a^b f(x) dx \\
-          & = & \int_a^m f(x) dx + \int_m^b f(x) dx\\
-      \end{array}
-    \]
-  \item Rule 1 of data analysis understand your data     
-  \end{itemize}
-\end{frame}
+\section{Variable Dynamics}
 
-\begin{frame}
-  \frametitle{Summary}
-  \begin{itemize}
-  \item Simple linear approximations are effective for well-behaved functions
-  \item The order of your approximation can vary according to function complexity
-  \item Using Bernoulli functions we can approximate the estimated error
-  \item Recursive estimation with error monitoring is often effective
-  \item Do a function analysis first to make sure function is proper
-  \item Next time we will discuss integration of ODE with standard
-    methods such as Runga-Kutta, Step-size variation, etc.
-  \end{itemize}
-\end{frame}
-\begin{frame}
-  \frametitle{Questions}
-  \centerline{\Huge Questions}
-\end{frame}
+
+\section{Summary}
+
+
 
 \end{document}
 
