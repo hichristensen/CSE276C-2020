@@ -394,6 +394,66 @@
   \end{itemize}
 \end{frame}
 
+\section{Partial Differential Equations}
+\label{sec:part-diff-equat}
+
+\begin{frame}
+  \frametitle{Partial Differential Equations}
+  \begin{itemize}
+  \item Huge topics that has its own course - MATH 110/MATH 231 A-C
+  \item Widely used for studies of physical systems - simulation / analysis
+  \item Three main categories
+    \begin{enumerate}
+    \item Hyperbolic (wave equation)
+      \[
+        \frac{\partial^2 u}{\partial t^2} = v^2 \frac{\partial^2 u}{\partial x^2}
+      \] where v is the speed of wave propagation
+    \item Parabolic (diffusion equation)
+      \[
+        \frac{\partial u}{\partial t} = \frac{\partial}{\partial x}\left( D \frac{\partial  u}{\partial x} \right)
+      \]
+      where D is the diffusion coefficient
+    \item Elliptic (Poisson equation)
+      \[
+        \frac{\partial^2 u }{\partial x^2} +  \frac{\partial^2 u }{\partial y^2} = \rho(x,y)
+      \]
+      where $\rho()$ is the source term. 
+    \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Computational Considerations for PDEs}
+  \begin{center}
+    \begin{tabular}{cc}
+      \includegraphics[height=3cm]{initial-value}&
+      \includegraphics[height=3cm]{boundary-value}\\
+      Initial Value & Boundary Value\\
+    \end{tabular}  
+  \end{center}
+
+  ~\\[1cm]
+  Source - Numerical Recipes. 
+\end{frame}
+
+\begin{frame}
+  \frametitle{Finite difference calculations}
+  \begin{columns}
+    \begin{column}{7cm}
+      \begin{itemize}
+      \item In most cases grid propagation
+      \item Finite differences is a basic approximation
+      \item Final structure is a sparse matrix 
+      \item Numerous models and packages to address
+      \end{itemize}
+    \end{column}
+    \begin{column}{4cm}
+      \includegraphics[width=3.5cm]{finite-differences}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
 \section{Summary}
 
 \begin{frame}
