@@ -17,7 +17,7 @@
 \usepackage{psfrag}
 \usepackage{animate}
 
-\usefonttheme{metropolis} % default family is serif
+% \usefonttheme{metropolis} % default family is serif
 %%%%%% Begin of my macros and options
 
 \setbeamertemplate{section in toc shaded}[default][55]
@@ -280,11 +280,17 @@
       \Phi{'}(\epsilon) =  \int_{x_0}^{x_1} \frac{d}{d \epsilon} F(x, y, y{'}) dx
     \] \pause or
     \[
-      \Phi{'}(\epsilon) =  \int_{x_0}^{x_1} \left( \frac{\partial}{\partial y} F(x, y^{*} + \epsilon y, y^{*}'+ \epsilon y' ) y + \frac{\partial}{\partial y'} F ( x, y^{*} + \epsilon y, y^{*} '+ \epsilon y{'} ) y{'} \right) dx
+      \Phi{'}( \epsilon ) =  \int_{x_0}^{x_1} \left(
+        \frac{\partial}{\partial y} F(x, y^{*} +  \epsilon y, y^{*}{'}+ \epsilon y{'} ) y +  
+        \frac{\partial}{\partial y{'}} F ( x, y^{*} + \epsilon y, y^{*} '+ \epsilon y{'} ) y{'} 
+        \right) dx
     \]
   \item We know that
     \[
-      \Phi{'}(0) = 0 =   \int_{x_0}^{x_1} \left( \frac{\partial}{\partial y} F ( x, y^{*}, y^{*}' ) y + \frac{\partial }{\partial y'}  F( x, y^{*} , y^{*}{'} ) y{'} \right)  dx
+      \Phi{'}(0) = 0 = \int_{x_0}^{x_1} \left( 
+       \frac{\partial}{\partial y}  F ( x, y^{*}, y^{*}{'} ) y + 
+       \frac{\partial }{\partial y{'}}  F( x, y^{*} , y^{*}{'} ) y{'} 
+       \right)  dx
     \]
   \end{itemize}
 \end{frame}
@@ -313,11 +319,56 @@
   \end{itemize}
 \end{frame}
 
-
+\begin{frame}
+  \frametitle{Side comment}
+  \begin{itemize}
+  \item The Euler Equation is essentially a ``directional derivative''
+    in the direction of y
+  \item Going back to earlier - $\delta J$ is finding a function $y^*$
+    where J is stationary. 
+  \item We are only considering the basic here. 
+  \end{itemize}
+\end{frame}
 
 \begin{frame}
-%   \frametitle{Summary}
-% \end{frame}
+  \frametitle{Shortest path problem}
+  \begin{itemize}
+  \item Remember the initial question of shortest path? 
+  \item Recall:
+    \[
+      L(y) = \int_{x_0}^{x_1} \sqrt{1 + y'^2} dx
+    \] with $y_0 = y(x_0)$ and $y_1 = y(x_1)$
+  \item So $F(x, y, y') = \sqrt{1 + y'^2}$
+    \[
+      F_y = 0 \mbox{~~~~~~ and ~~~~~} F_{y'} = \frac{y'}{\sqrt{1+y'^2}}
+    \]    
+  \item Euler Equations reduces to
+    \[
+      \frac{d}{dx} \frac{y'}{\sqrt{1+y'^2}} = 0
+    \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The shortest path?}
+\begin{itemize}
+  \item So 
+  \[
+    \frac{y'}{\frac{1+y'^2}} = c
+  \]
+  \item we can rewrite
+  \[
+    \begin{array}{rcl}
+      y'^2& = & c^2 (1+y'^2)\\
+      y'  & = & \pm \frac{c}{\sqrt{1-c^2}} = m \mbox{ ~~ a constant} \\
+      y'  & = & m\\
+      y   & = & mx + b \\
+    \end{array}
+  \]
+  surprise it is the equation for a straight line!
+
+\end{itemize
+\end{frame}
 \end{document}
 
 %%% Local Variables:
