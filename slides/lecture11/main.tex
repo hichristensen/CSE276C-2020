@@ -17,7 +17,7 @@
 \usepackage{psfrag}
 \usepackage{animate}
 
-% \usefonttheme{metropolis} % default family is serif
+\usefonttheme{metropolis} % default family is serif
 %%%%%% Begin of my macros and options
 
 \setbeamertemplate{section in toc shaded}[default][55]
@@ -240,10 +240,84 @@
   \item What are the necessary conditions for this to be valid
   \end{itemize}
 \end{frame}
-% \begin{frame}
+
+\begin{frame}
+  \frametitle{Neighborhood Evaluation}
+  \begin{itemize}
+  \item Lets start by showing optimality in a neighborhood
+  \item Let $y \in C^2[x_0, x_1]$ such that $y(x_0) = y(x_1) = 0$
+  \item Let   $\epsilon \in \mathcal{R}$ be a value
+  \item Lets consider a one-parameter family of functions
+    \[
+      y(x) = y^*(x) + \epsilon y(x)
+    \]
+  \item Where $y^*$ is the (unknown) optimal function
+  \item Define $\Phi: \mathcal{R} \rightarrow \mathcal{R}$ by
+    \[
+      \Phi(\epsilon) = \int_{x_0}^{x_1} F(x, y, y') dx
+    \]
+  \item If $|\epsilon|$ is small enough then all variants of
+    $y^* + \epsilon y$ lie in a small neighborhood of $y^*$,
+    therefore $\Phi$ attains a local minimum at $\epsilon = 0$
+  \item Thus it must be true that  $\Phi'(0) = 0$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{So what is $\Phi'$?}
+  \begin{itemize}
+  \item We know that
+    \[
+      \Phi(\epsilon) = \int_{x_0}^{x_1} F(x, y, y{'}) dx
+    \]
+  \item So it must be true that
+    \[
+      \Phi'(\epsilon) = \frac{d}{d \epsilon} \int_{x_0}^{x_1} F(x, y, y{'}) dx
+    \]
+  \item Given that we have a $C^{2}$ domain we can reverse the order of
+    integration and differentiation, so that
+    \[
+      \Phi{'}(\epsilon) =  \int_{x_0}^{x_1} \frac{d}{d \epsilon} F(x, y, y{'}) dx
+    \] \pause or
+    \[
+      \Phi{'}(\epsilon) =  \int_{x_0}^{x_1} \left( \frac{\partial}{\partial y} F(x, y^{*} + \epsilon y, y^{*}'+ \epsilon y' ) y + \frac{\partial}{\partial y'} F ( x, y^{*} + \epsilon y, y^{*} '+ \epsilon y{'} ) y{'} \right) dx
+    \]
+  \item We know that
+    \[
+      \Phi{'}(0) = 0 =   \int_{x_0}^{x_1} \left( \frac{\partial}{\partial y} F ( x, y^{*}, y^{*}' ) y + \frac{\partial }{\partial y'}  F( x, y^{*} , y^{*}{'} ) y{'} \right)  dx
+    \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Still more $\Phi'$}
+  \begin{itemize}
+  \item We can write this more compactly
+    \[
+      \Phi{'}(0)= \int_{x_0}^{x_1} \left( F_y y + F_{y'} y' \right) dx
+    \]
+  \item Using integration by parts we get
+    \[
+      \begin{array}{rcl}
+        \int_{x_0}^{x_1} F_{y'} y' dx &=& \left. F_{y'} y \right\vert_{x_0}^{x_1} - \int_{x_0}^{x_1} y \frac{d}{dx} F_{y'} dx\\
+        &=& - \int_{x_0}^{x_1} y \frac{d}{dx} F_{y'} dx\\
+      \end{array}
+    \] with this we can rewrite
+    \[
+      \Phi{'}(0)= \int_{x_0}^{x_1} \left[ F_y - \frac{d}{dx} F_{y'} \right] y dx = 0
+    \] as this has to apply for any function y it must be true that
+    \[
+      F_y - \frac{d}{dx} F_{y'} = 0 \mbox{ on } [x_0, x_1]
+    \]
+  \item This is called Euler's Equation
+  \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
 %   \frametitle{Summary}
 % \end{frame}
-
 \end{document}
 
 %%% Local Variables:
