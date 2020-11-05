@@ -359,10 +359,10 @@
   \item we can rewrite
     \[
       \begin{array}{rcl}
-        y'^2& = & c^2 (1+y'^2)\\ \pause
-        y'  & = & \pm \frac{c}{\sqrt{1-c^2}} = m \mbox{ ~~ just a constant} \\ \pause
-        y'  & = & m\\ \pause
-        y   & = & mx + b \\ \pause
+        y'^2& = & c^2 (1+y'^2)\\ 
+        y'  & = & \pm \frac{c}{\sqrt{1-c^2}} = m \mbox{ ~~ just a constant} \\ 
+        y'  & = & m\\ 
+        y   & = & mx + b \\ 
       \end{array}
     \]
     surprise it is the equation for a straight line!
@@ -408,23 +408,147 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Constrained optimization (cont.)}
+  \frametitle{Constrained Optimization (cont.)}
   \begin{itemize}
   \item We can use a combination of variational techniques and Lagrange multipliers to solve such problems
   \item We can define two functions
     \[
       \begin{array}{rcl}
-        \Phi(\epsilon_1,\epsilon_2) & = & \int_{x_0}^{x_1} F(x, y^{*} + \epsilon_1 y + \epsilon_2 \xi, y^{*'} \epsilon_1 y' + \epsilon_2 \xi {'}) dx\\
-        \Psi(\epsilon_1,\epsilon_2) & = & \int_{x_0}^{x_1} G(x, y^{*} + \epsilon_1 y + \epsilon_2 \xi, y^{*'} \epsilon_1 y' + \epsilon_2 \xi {'}) dx\\
+        \Phi(\epsilon_1,\epsilon_2) & = & \int_{x_0}^{x_1} F(x, y^{*} + \epsilon_1 y + \epsilon_2 \xi, y^{*'} + \epsilon_1 y' + \epsilon_2 \xi {'}) dx\\
+        \Psi(\epsilon_1,\epsilon_2) & = & \int_{x_0}^{x_1} G(x, y^{*} + \epsilon_1 y + \epsilon_2 \xi, y^{*'} + \epsilon_1 y' + \epsilon_2 \xi {'}) dx\\
       \end{array}
     \]
-  \item Here $y^*$ is the unknown function and $y \mbox{ and } \xi$ are two $C^2$ functions that vanish at the end-points
-  \item So we want to minimize $\Phi$ subject to the constraint $\Psi$. We know there is a local minimum at $\epsilon_1 = \epsilon_2 = 0$
+  \item Here $y^*$ is the unknown function and $y \mbox{ and } \xi$
+    are two $C^2$ functions that vanish at the end-points
+  \item So we want to minimize $\Phi$ subject to the constraint
+    $\Psi$. We know there is a local minimum at
+    $\epsilon_1 = \epsilon_2 = 0$
   \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Constrained Optimization (Cont.)}
+  \begin{itemize}
+  \item Using a Lagrange approach we can form the function
+    \[
+      E(\epsilon_1, \epsilon_2, \lambda) =
+      \Phi( \epsilon_1, \epsilon_2 ) + \lambda (\Psi(\epsilon_1, \epsilon_2 ) - c)
+    \]
+    
+  \item At the local minimum - $\nabla E = 0$
+  \item In other words there is a $\lambda_0$ such that
+    \[
+      \begin{array}[c]{ccc}
+        \frac{\partial}{\epsilon_1} E(0,0,\lambda_0) = 0  & \mbox{~~  ~~}&
+        \frac{\partial}{\epsilon_2} E(0,0,\lambda_0) = 0  \\
+        \frac{\partial}{\lambda} E(0,0,\lambda_0) = 0 && \\        
+      \end{array}
+    \]
+  \end{itemize}
+\end{frame}
 
+\begin{frame}
+  \frametitle{Constrained Optimization - let's compute}
+  \begin{itemize}
+  \item Interchanging differentiation and integration we get
+    \[
+      \frac{\partial }{\partial \epsilon_1} E(0,0,\lambda_0) =
+      \int_{x_0}^{x_1} \left( F_y y + F_{y'} y' +
+        \lambda_0 G_y y + \lambda_0 G_{y'} y' \right) dx
+    \]
+    \pause
+  \item We can do integration by parts and as y vanishes at end-points we see that
+    \[
+      \frac{\partial }{\partial \epsilon_1} E(0,0,\lambda_0) =
+      \int_{x_0}^{x_1} \left( \left[ F_y - \frac{d}{dx} F_{y'} \right]
+        + \lambda_0 \left[ G_y - \frac{d}{dx} G_{y'} \right] \right)
+      y dx
+    \]
+    \pause
+  \item Similarly:
+    \[
+      \frac{\partial }{\partial \epsilon_2} E(0,0,\lambda_0) =
+      \int_{x_0}^{x_1} \left( \left[ F_y - \frac{d}{dx} F_{y'} \right]
+        + \lambda_0 \left[ G_y - \frac{d}{dx} G_{y'} \right] \right)
+      \xi dx
+    \]
+    \pause
+  \item As before we can conclude
+    \[
+      \left[ F_y - \frac{d}{dx} F_{y'} \right]
+      + \lambda_0 \left[ G_y - \frac{d}{dx} G_{y'} \right] = 0
+    \]
+  \end{itemize}
+\end{frame}
 
+\begin{frame}
+  \frametitle{Back to our example}
+  \begin{itemize}
+  \item So we can utilize
+    \[
+      \begin{array}{cc}
+        F(x,y,y') = \sqrt{ 1 + y'^2 } & G( x, y, y') = y\\
+        F_y = 0 & G_y = 1\\
+        F_{y'} = \frac{ y' }{ \sqrt{ 1 + y'^2 } } & G_{y'} = 0\\
+      \end{array}
+    \]
+  \item We want to satisfy the differential equation
+    \[
+      - \frac{d}{dx} \frac{y'}{ \sqrt{ 1+y'^2 } } + \lambda_0 = 0
+    \]
+  \item Or
+    \[
+      \begin{array}{rcl}
+        \frac{y'}{\sqrt{1+y'^2}} &=& \lambda_0 x + c   \\
+        \frac{y'^2}{1+y'^2} &=& (\lambda_0 x+c)^2\\
+        y'^2 &=& \frac{(\lambda_0 x + c)^2}{  1 - (\lambda_0 x +c )^2}\\
+        y' & =& \pm \frac{\lambda_0 x + c}{\sqrt{1 - (\lambda_0 x +c )^2}}\\
+      \end{array}
+    \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example (cont.)}
+  \begin{itemize}
+  \item We can do the integration
+    \[
+      \begin{array}{rcl}
+        y(x) &=& \pm \int \frac{\lambda_0 x + c}{\sqrt{1 - (\lambda_0 x +c )^2}}\\
+             && \mbox{ substite } u = \lambda_0 x + c \mbox{ and } du = \lambda_0 dx \\
+             &=& \pm \int \frac{u}{\sqrt{1-u^2}} du = \pm \left[ - \sqrt{1-u^2} + k \right] \\
+             &=& \pm \left[ - \frac{ 1 }{ \lambda } ~  \sqrt{ 1 - ( \lambda_0 x + c )^2}   - \frac{k}{\lambda_0} \right]\\
+      \end{array}
+    \]
+  \item This can be rewritten to
+    \[
+      \left( y \pm \frac{k}{\lambda_0} \right)^2  +
+      \left( x + \frac{c}{\lambda_0} \right)^2 =
+      \frac{1}{\lambda_0}
+    \]
+  \item That is a circle arc!
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Extensions}
+  \begin{itemize}
+  \item For multiple variable you can formulate it similar to the simple case
+  \item Ex: Shortest path in a multiple dimensional space
+  \item Ex: Light ray tracing through non-homogenous media
+  \item You would extend Euler's Equation to have more terms
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Summary}
+  \begin{itemize}
+  \item Merely broached calculus of variation
+  \item Powerful tool for optimization and derivation of analytical models
+  \item Models for airplane wings, elastic membranes
+  \item Important to consider it part of your toolbox
+  \end{itemize}
+\end{frame}
 \end{document}
 
 %%% Local Variables:
