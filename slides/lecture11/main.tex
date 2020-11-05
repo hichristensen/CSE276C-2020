@@ -134,7 +134,7 @@
 \begin{frame}
   \frametitle{Introduction (cont)}
   \begin{itemize}
-  \item We have see the principle
+  \item We have seen the principle
     \begin{itemize}
     \item To minimize P is to solve P' = 0
     \end{itemize}
@@ -152,8 +152,10 @@
   \frametitle{Example}
   \begin{itemize}
   \item Suppose we connect two points in the plane $(x_0, y_0)$ and
-    $(x_1, y_1)$ by a curve of the form y = y(x).
+    $(x_1, y_1)$ \\by a curve of the form $y = y(x)$.
+    
     \centerline{\includegraphics[height=4cm]{basic-curve}}
+    
   \item The length if the curve can be written
     \[ L(y) = \int_{x_0}^{x_1} \sqrt{1 + (y')^2} dx \]
     L is a functional. 
@@ -192,7 +194,7 @@
 \begin{frame}
   \frametitle{Consider for a minute}
   \begin{itemize}
-  \item Suppose $ f: \mathcal{R}^n \rightarrow \mathcal{R}$ what does it mean for $x^*$ to be a local extremum of f? 
+  \item Suppose $ f: \mathcal{R}^n \rightarrow \mathcal{R}$ what does it mean for $x^*$ to be a local extremum of f? \pause
     \begin{enumerate}
     \item We must have $f(x) \geq f(x^*)$ for every x in some neighborhood
     \item A necessary condition $\nabla f(x^*) = 0$ i.e., that $\frac{\partial f}{\partial x_i} = 0$ for all i. 
@@ -228,7 +230,7 @@
   \frametitle{Simplest problem}
   \begin{itemize}
   \item Lets start with a simple problem
-  \item Minimize $J(y) = \int_{x_0}^{x_1} F(x, y, y') dx$ with $y, F in C^2$
+  \item Minimize $J(y) = \int_{x_0}^{x_1} F(x, y, y') dx$ with $y, F \in C^2$
   \item Suppose $y^*$ minimizes J it would then be true
     \begin{enumerate}
     \item In a neighborhood of $y^*$ then $J(y) \geq J(y^*)$
@@ -342,7 +344,7 @@
     \[
       F_y = 0 \mbox{~~~~~~ and ~~~~~} F_{y'} = \frac{y'}{\sqrt{1+y'^2}}
     \]    
-  \item Euler Equations reduces to
+  \item Euler's Equation reduces to
     \[
       \frac{d}{dx} \frac{y'}{ \sqrt{1+y'^2} } = 0
     \]
