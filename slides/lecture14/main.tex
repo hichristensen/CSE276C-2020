@@ -522,6 +522,111 @@
   \item Note for this example both curvature and torsion are constants
   \end{itemize}
 \end{frame}
+
+\begin{frame}
+  \frametitle{Covariants and Lie Brackets}
+  \begin{itemize}
+  \item Suppose $V \& W$ are two vector fields in $\mathbb{R}^n$ so
+    that for each point $p \in \mathbb{R}^n$ $V(p) \mbox{ and } W(p)$
+    are vectors in $\mathbb{R}^n$
+  \item The \myemph{covariant derivative} of W wrt V is
+    \[
+      (\nabla_v W)(p) = \frac{d}{dt} W(p + t V_p)|_{t = 0}
+    \]
+  \item $\nabla_v W$ measures the change in W as one moves along V
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Examples - covariant derivatives}
+  \begin{itemize}
+  \item In $\mathbb{R}^2$ W(p) = (1,0) and V(p) = (0,1) forall p
+  \item The $\nabla_v W = \nabla_w V = 0$ 
+  \item For a circle in 2D, $p = (x, y) \in mathbb{R}^2$
+    \[
+      W = \frac{(x,y)}{\sqrt{x^2 + y^2}} \mbox{~ and ~}
+      V = \frac{(-y, x)}{\sqrt{x^2+y^2}}
+    \]
+  \item Then $\nabla_v W = \frac{v}{\sqrt{x^2 + y^2}}$ and of course
+    $\nabla_w V = 0$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{A few things about covariant derivatives}
+  \begin{itemize}
+  \item $\nabla_v W$ is an n-dimensional vector 
+  \item $\nabla_v (a W + b U) = a \nabla_v W + b \nabla_v U$
+  \item $\nabla_{fV+gU} W = f \nabla_v W + g \nabla_u W$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Lie Bracket}
+  \begin{itemize}
+  \item The \myemph{Lie Bracket} [V, W] of the two vector fields is
+    defined to be
+    \[ [V, W] = \nabla_V W - \nabla_W V \]
+  \item Basically measure flow in the directions of V, -V, W, -W
+  \item Lets illustrate this with a real robot example 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Parallel Parking}
+  \begin{columns}
+    \column{5cm}
+    \vfill
+    \centerline{\includegraphics[width=4.9cm]{parallel-parking}}
+    \vfill
+    \column{6cm}
+    \begin{itemize}
+    \item The configuration - $(x, y, \theta)$
+    \item The controls are $(v, \phi)$
+    \item The controls are
+      \[
+        \begin{array}{rcl}
+          \dot{x}& = & v \cos \phi \cos \theta\\
+          \dot{y}& = & v \cos \phi \sin \theta\\
+          \dot{\theta} & = & \frac{v}{l} \sin \phi\\
+        \end{array}
+      \]
+    \item We can consider nominal motion $(1, \phi_1)$ and $(1, \phi_2)$ as wheel directions
+    \end{itemize}
+  \end{columns}
+\end{frame}
+\begin{frame}
+  \frametitle{Parallel Parking - Cont}
+  \begin{itemize}
+    \item Two vector fields
+      \[ V_i = V_i(x,y,\theta) =
+        (\cos \phi_i \cos\theta, \cos\phi_i \sin\theta, \frac{\sin \phi_i}{l})
+      \]
+    \item Then
+      \[
+        \nabla_{V_1} V_2 = (\nabla(\cos\phi_1 \cos \theta) V_2,
+        \nabla(\cos \phi_1 \sin \theta) V_2, \nabla(\frac{\sin \phi_1}{l} V2)
+      \] skipping calculations
+      \[
+        \nabla_{V_1} V2 = \frac{\sin \phi_1 \cos \phi_2}{l}(-\sin \theta, \cos \theta, 0)
+      \]  and simularly for the 
+      \[
+        [V_1, V_2] = \frac{\sin(\phi_1 - \phi_2)}{l} (-\sin \theta, \cos \theta, 0)
+      \] So we can move perpendicular to the axis as long as $(\phi_1-\phi_2)\neq 0 $
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Summary}
+  \begin{itemize}
+  \item Covering basics of movement along curves
+  \item Similar derivations can be provided for movement on manifolds
+  \item Covering basic characteristics of curves
+  \item Definition of the Frenet frame and associated characteristics
+  \item Brief coverage of covaraint derivatives and lie bracket
+  \end{itemize}
+\end{frame}
+
 \end{document}
 
 %%% Local Variables:
