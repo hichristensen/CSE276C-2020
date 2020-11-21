@@ -15,7 +15,7 @@
 \usepackage{psfrag}
 \usepackage{animate}
 
-\usefonttheme{metropolis} % default family is serif
+%\usefonttheme{metropolis} % default family is serif
 %%%%%% Begin of my macros and options
 
 \setbeamertemplate{section in toc shaded}[default][55]
@@ -354,7 +354,7 @@
     \]
   \item where $T_{ij}$ is the Lagrange interpolation of order i with j points. The relation between the polynomials is
     \[
-      T_{k, j+1} = \frac{2 T_{k,j} - T_{k-1,j}}{(n_k / n_{k-j})^2 - 1} \mbox{~~~~} j = 0, 1, \ldots, k-1
+      T_{k, j+1} = \frac{2 T_{k,j} - T_{k-1,j}}{(n_k / n_{k-j-1})^2 - 1} \mbox{~~~~} j = 0, 1, \ldots, k-1
     \]
   \item Each stepsize starts a new row. The difference
     $T_{kk} - T_{kk-1}$ is an an error estimate
