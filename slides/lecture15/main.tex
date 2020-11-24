@@ -97,7 +97,7 @@
 
 \begin{document}
 
-\nobibliography{/Users/hic/Dropbox/bibliography/bib-file}
+\nobibliography{/Users/hic/Dropbox/bibliography/bib-file.bib}
 \bibliographystyle{plain}
 
 \begin{frame}[plain]
@@ -105,12 +105,31 @@
 \end{frame}
 
 
+\begin{frame}
+  \frametitle{Introduction}
+  \begin{itemize}
+  \item Data science is a big part of robotics
+  \item Many aspects of robotics rely on data analysis
+    \begin{itemize}
+    \item Recognition of objects
+    \item Adpative Control
+    \item Clean-up of sensor information
+    \item ...
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{A general framework}
+  \centerline{\includegraphics[width=12cm]{osemn}}
+\end{frame}
+
 \section{Introduction - Regression}
 \begin{frame}
   \frametitle{Introduction}
   \begin{itemize}
   \item The objective of regression is to enable prediction of a value
-    t based on modeling over a dataset $X$.
+    based on modeling over a dataset $X$.
   \item Consider a set of D observations over a space
   \item How can we generate estimates for the future?
     \begin{itemize}
@@ -343,7 +362,7 @@
   \item Error model: $d_i = r_i \cos(\phi_i - \theta) - \rho$
   \item Optimize: $ \textrm{argmin}_{(\rho,\theta)} \sum_i (r_i
     \cos(\phi_i - \theta) - \rho)^2 $
-  \item Error model derived in \citet{Deriche92}
+  \item Error model derived in \citet{Deriche92a}
   \item Well suited for ``clean-up'' of Hough lines
   \end{itemize}
 \end{frame}
@@ -569,16 +588,16 @@
 \end{frame}
 
 
-\section{Summary}
+\section{Regression Summary}
 
 \begin{frame}
-  \frametitle{Summary}
+  \frametitle{Regression Summary}
   \begin{itemize}
   \item Brief intro to linear methods for estimation of models
   \item Prediction of values and models
     \begin{itemize}
     \item Needed for adaptive selection of models (black-box/grey-box)
-    \item Evaluation of sensor models, ...
+    \item Evaluation of sensor models, \ldots
     \end{itemize}
   \item Consideration of batch and recursive estimation methods
   \item Significant discussion of methods for evaluation of models and
@@ -588,17 +607,17 @@
 \end{frame}
 
 
-\section{Introduction}
+\section{Classification}
 
 \begin{frame}
-  \frametitle{Introduction}
+  \frametitle{Classification Introduction}
   \begin{itemize}
   % \item Last time: prediction of new functional values
-  \item Today: linear classification of data
+  \item Linear classification of data
     \begin{itemize}
     \item Basic pattern recognition
     \item Separation of data: buy/sell
-    \item Segmentation of line data, ...
+    \item Segmentation of line data, \ldots
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -645,8 +664,8 @@
   \item There are data sets and sample code available
     \begin{itemize}
     \item NETLAB: \url{http://www.ncrg.aston.ac.uk/netlab/index.php}
-    \item NAVTOOLBOX: \url{http://www.cas.kth.se/toolbox/}
-    \item SLAM Dataset: \url{http://kaspar.informatik.uni-freiburg.de/~slamEvaluation/datasets.php}
+    \item Kaggle: \url{https://www.kaggle.com}
+    \item Lots of good robotics datasets too
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -975,13 +994,14 @@
 
 \begin{frame}
   \frametitle{Summary}
+  \begin{itemize}
+  \item Data models are anchored in pure data driven or model based evaluation
+  \item How can we use models to interpret data and extrapolate beyond the basic data?
+  \item Covered basic models for regression and classification. 
+  \end{itemize}
 \end{frame}
 
-\newcommand{\newblock}{}
-{\tiny
 % \bibliographystyle{acm}
-  \bibliography{/Users/hic/Dropbox/bibliography/bib-file}
-}
 
 \end{document}
 
