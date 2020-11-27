@@ -123,11 +123,11 @@
 \begin{frame}
   \frametitle{Independent Trials}
   \begin{itemize}
-  \item A set of possible outcomes $E_1, E_2, \ldots$ is given
+  \item A set of possible outcomes $X_1, X_2, \ldots$ is given
   \item Each outcome has an associated probability $p_k$
   \item The probability of a samples sequence is given by
     \[
-      P \{ (E_{j0}, E_{j1}, \ldots, E_{jk}) \} = p_{j0} p_{j1} \cdots p_{jk}
+      P \{ (X_{j0}, X_{j1}, \ldots, X_{jk}) \} = p_{j0} p_{j1} \cdots p_{jk}
     \]
   \end{itemize}
 \end{frame}
@@ -137,15 +137,15 @@
   \begin{itemize}
   \item The outcome of any trial dependent on the outcode of the
     directly precedings trial only
-  \item \myemph{Conditional Probability $p_{jk}$}: given $E_j$ has
-    occured at some trial the probability of $E_k$ at the next trial
-  \item $a_k$ is the probability of $E_k$ at the initial trial
+  \item \myemph{Conditional Probability $p_{jk}$}: given $X_j$ has
+    occured at some trial the probability of $X_k$ at the next trial
+  \item $a_k$ is the probability of $X_k$ at the initial trial
   \item I.e.:
     \[
       \begin{array}{rcl}
-        P\{ ( E_j, E_k) \} &=& a_k p_{jk}\\
-        P\{ ( E_j, E_k, E_l) \} &=& a_j p_{jk} p_{kl}\\
-        P \{ (E_{j0}, E_{j1}, \ldots, E_{jk}) \} &=& a_{j0} p_{j1} \cdots p_{jk}\\
+        P\{ ( X_j, X_k) \} &=& a_k p_{jk}\\
+        P\{ ( X_j, X_k, X_l) \} &=& a_j p_{jk} p_{kl}\\
+        P \{ (X_{j0}, X_{j1}, \ldots, X_{jk}) \} &=& a_{j0} p_{j1} \cdots p_{jk}\\
       \end{array}
     \]
   \end{itemize}
@@ -161,4 +161,26 @@
   \end{itemize}
   \centerline{\includegraphics[height=2.5cm]{basic-mc}}
 \end{frame}
+
+\begin{frame}
+  \frametitle{Formalizing things}
+  \begin{itemize}
+  \item The chain is in a \myemph{state} $X_t$ at time t.
+  \item The \myemph{state space} of a chain is the value X can take
+    on, i.e., $S = \{ 1, 2, 3, 4, 5, 6\}$. Let the size of S be N
+    (possibly infinite)
+  \item A \myemph{trajectory} of a chain is the set of values of X over time, say
+    $X_0, X_1, X_2, \ldots$ The trajectory is the ``path'' through a chain.
+  \item The \myemph{Markov Property} implies that the future
+    state/trajectory only depends upon the current state, i.e.:
+    \[
+      P(X_{t+1} = s | X_t = s_t, X_{t-1} = s_{t-1}, \ldots, X_0 = s_0) = P(X_{t+1} = s | X_t = s_t)
+    \]
+  \item A sequence of discrete events random variables can be
+    considered a Markov chain if it satisfies the above property
+  \end{itemize}
+\end{frame}
+
+
+
 \end{document}
