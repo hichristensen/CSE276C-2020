@@ -2,10 +2,10 @@ digraph
 {
     rankdir=TB;
     node [ shape = circle ];
-    { rank = same; sun overcast}
+    { rank = same; sunny overcast}
 
-    sun ->  overcast [label="0.1"];
+    sunny ->  overcast [label="0.1"];
     overcast:ne -> overcast:se[label="0.3"];
-    overcast ->  sun [label="0.7"];
-    sun:nw -> sun:sw[label="0.9"];
+    overcast ->  sunny [label="0.7"];
+    sunny:sw -> sunny:nw[label="0.9"];
 }
