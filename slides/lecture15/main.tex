@@ -343,16 +343,17 @@
     \begin{itemize}\setlength{\itemsep}{0pt}
     \item Line equation: $y=a x + b$
     \item Error in fit: $\sum_i (y_i - a x_i - b)^2$
-    \item Solution: \[ 
+    \item Solution: \[
       \left( \begin{array}{c} \bar{y^2}\\ \bar{y} \end{array}
-      \right) = \left( \begin{array}{cc} 
+      \right) = \left( \begin{array}{cc}
           \bar{x^2} & \bar{x} \\
-          \bar{x}   & 1\\ \end{array} \right) \left( 
+          \bar{x}   & 1\\ \end{array} \right) \left(
         \begin{array}{c} a \\ b \end{array} \right)
       \]
+    \item So what is the problem? \pause
     \item Minimizes vertical errors. Non-robust!
     \end{itemize}
-  \end{itemize}  
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
